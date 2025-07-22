@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>Вход на сайт</title>
+    <link rel="stylesheet" href="{% static 'myapp/styles.css' %}">
+    <style>
+        /* Немного дополнительного центрирования формы */
+        .login-container {
+            max-width: 400px;
+            margin: 80px auto;
+            padding: 25px;
+            background: white;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+            border-radius: 6px;
+        }
+        h2 {
+            text-align: center;
+            color: #2980b9;
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .errorlist {
+            color: red;
+            margin: 10px 0;
+            list-style: none;
+            padding-left: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Вход на сайт</h2>
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <p>
+                <label for="id_username">Имя пользователя:</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.username.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </p>
+            <p>
+                <label for="id_password">Пароль:</label>
+                {{ form.password }}
+                {% if form.password.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.password.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </p>
+            <p>
+                <input type="submit" value="Войти" />
+            </p>
+        </form>
+        <p style="text-align:center; margin-top: 15px;">
+            <a href="{% url 'index' %}">Вернуться на главную</a>
+        </p>
+    </div>
+</body>
+</html>
